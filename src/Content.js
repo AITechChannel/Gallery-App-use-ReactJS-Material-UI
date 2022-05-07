@@ -11,21 +11,19 @@ function Content() {
     console.log(color);
     console.log(post);
     useEffect(() => {
-        async function fetchData() {
-            const api = `https://js-post-api.herokuapp.com/api/posts?_limit=1&_page=${page}`;
-            const response = await fetch(api);
-            const data = await response.json();
-            setPost(data.data);
+        try {
+            async function fetchData() {
+                const api = `https://js-post-api.herokuapp.com/api/posts?_limit=1&_page=${page}`;
+                const response = await fetch(api);
+                const data = await response.json();
+                setPost(data.data);
+            }
+            fetchData();
+        } catch (error) {
+            console.log('Error', error.message);
         }
-        fetchData();
         console.log('render');
     }, [page]);
-    const handleNext = () => {
-        setPage(() => page + 1);
-    };
-    const handlePrev = () => {
-        setPage(() => page - 1);
-    };
     const handleChange = (event, value) => {
         setPage(value);
         setColor('blue');
