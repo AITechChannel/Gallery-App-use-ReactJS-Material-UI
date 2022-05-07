@@ -8,6 +8,7 @@ function App() {
     return (
         <div className="App">
             <h1 className="btn--show">Welcom to Photo App!</h1>
+            <p className="btn--show">Coder: Tuananh Doan</p>
             <button className="btn btn--show" onClick={() => setShow(!show)}>
                 Show
             </button>
