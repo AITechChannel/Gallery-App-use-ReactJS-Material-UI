@@ -1,78 +1,55 @@
 import { useState, useReducer, useEffect, useRef } from 'react';
 
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 function Content() {
-    const liRef = useRef();
-    const SET = 'onChange Input';
-    const ADD = 'add list';
-    const DEL = 'del item';
-
-    const set = (value) => {
-        return {
-            type: SET,
-            value,
-        };
-    };
-
-    const add = (value) => {
-        return {
-            type: ADD,
-            value,
-        };
-    };
-
-    const del = (value) => {
-        return {
-            type: DEL,
-            value,
-        };
-    };
-
-    const initState = {
-        input: '',
-        inputs: [],
-    };
-
-    const reducer = (state, action) => {
-        console.log(action);
-        console.log(state);
-        switch (action.type) {
-            case SET:
-                return {
-                    ...state,
-                    input: action.value,
-                };
-            case ADD:
-                return {
-                    ...state,
-                    inputs: [...state.inputs, action.value],
-                };
-            case DEL:
-                const newValue = [...state.inputs];
-                newValue.splice(action.value, 1);
-                return {
-                    ...state,
-                    inputs: newValue,
-                };
-
-            default:
-                throw new Error('loi');
+    const [post, setPost] = useState([]);
+    const [page, setPage] = useState(1);
+    const [color, setColor] = useState('red');
+    console.log(color);
+    console.log(post);
+    useEffect(() => {
+        async function fetchData() {
+            const api = `https://js-post-api.herokuapp.com/api/posts?_limit=1&_page=${page}`;
+            const response = await fetch(api);
+            const data = await response.json();
+            setPost(data.data);
         }
+        fetchData();
+        console.log('render');
+    }, [page]);
+    const handleNext = () => {
+        setPage(() => page + 1);
     };
-
-    const [list, dispatch] = useReducer(reducer, initState);
-
-    const { input, inputs } = list;
-
-    console.log(list);
-
+    const handlePrev = () => {
+        setPage(() => page - 1);
+    };
+    const handleChange = (event, value) => {
+        setPage(value);
+        setColor('blue');
+    };
+    useEffect(() => {
+        const showBtnElement = document.querySelectorAll('.btn--show');
+        showBtnElement.forEach((item) => {
+            item.classList.add('hidden');
+        });
+    }, []);
     return (
-        <div>
-            <input value={input} onChange={(e) => dispatch(set(e.target.value))} />
-            <button onClick={() => dispatch(add(input))}>Add</button>
-
-            {inputs.map((input, index) => (
-                <li onClick={() => dispatch(del(index))}>{input}</li>
+        <div className="container">
+            {post.map((item) => (
+                <div>
+                    <h1 className={'title ' + color} key={item.id}>
+                        {item.title}
+                    </h1>
+                    {console.log('ok')}
+                    <img className="img" src={item.imageUrl} alt="Vui lòng chờ, đang load" />
+                </div>
             ))}
+            <Stack spacing={2}>
+                <Pagination size="large" count={10} color="primary" page={page} onChange={handleChange} />
+            </Stack>
         </div>
     );
 }

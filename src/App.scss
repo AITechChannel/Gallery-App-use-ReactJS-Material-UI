@@ -1,0 +1,56 @@
+* {
+    font-family: 'Roboto';
+}
+body {
+    background: linear-gradient(45deg, #c4899d 30%, #f3e1ef 90%);
+    height: 100vh;
+}
+#root {
+    height: 100%;
+    .App {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        text-align: center;
+        // background-color: aqua;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .container {
+            .title {
+                color: red;
+            }
+
+            .MuiPagination-ul {
+                justify-content: center;
+            }
+
+            img {
+                width: 100%;
+                border-radius: 10px;
+            }
+            h1 {
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+.btn {
+    padding: 10px 40px;
+    background-color: #1976d2;
+    color: #fff;
+    font-family: Roboto;
+    font-size: 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    &:hover {
+        background-color: #407cb9;
+    }
+}
+
+.hidden {
+    display: none;
+}
